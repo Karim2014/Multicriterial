@@ -2,21 +2,18 @@ package table;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DecisionTable {
 
-    private TreeMap<Criterion, List<Double>> criterion;
+    private Map<Criterion, List<Double>> criterion;
 
     private DecisionTable() {
-        criterion = new TreeMap<>();
+        criterion = new LinkedHashMap<>();
     }
 
-    public TreeMap<Criterion, List<Double>> getCriterion() {
+    public Map<Criterion, List<Double>> getCriterion() {
         return criterion;
     }
 
