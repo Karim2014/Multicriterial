@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 public class DecisionTable {
 
-
     private TreeMap<Criterion, List<Double>> criterion;
 
     private DecisionTable() {
