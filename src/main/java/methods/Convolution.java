@@ -4,7 +4,7 @@ import table.DecisionTable;
 
 import java.util.List;
 
-public abstract class Convolution {
+public abstract class Convolution extends BaseMethod {
     public abstract List<Double> doConvolution(DecisionTable decisionTable);
 
     protected List<Float> alphas;

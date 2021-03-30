@@ -17,7 +17,7 @@ public class MultiplicativeConvolution extends Convolution {
         decisionTable.normalizeZero();
         // транспонируем матрицу решений и возвращааем в виде двумерных списков
         List<List<Double>> transposedMatrix = decisionTable.transposeToList();
-        // суммируем элементы и возвращае
+        // умножаем элементы и возвращае
         return transposedMatrix
                 .stream()
                 .map(doubles -> {
@@ -28,22 +28,6 @@ public class MultiplicativeConvolution extends Convolution {
                     return p;
                 })
                 .collect(Collectors.toList());
-    }
-
-    public double findMax(List<Double> convolution) {
-        return convolution.stream().max(Double::compareTo).get();
-    }
-
-    public List<Double> findAlt(List<List<Double>> transposedMatrix, List<Double> convolution) {
-        int index = 0;
-        double max = convolution.get(index);
-        for (int i = 0; i < convolution.size(); i++) {
-            if (convolution.get(i) > max) {
-                max = convolution.get(i);
-                index = i;
-            }
-        }
-        return transposedMatrix.get(index);
     }
 
 }
