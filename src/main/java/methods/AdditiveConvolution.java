@@ -5,18 +5,13 @@ import table.DecisionTable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AdditiveConvolution {
-
-    private List<Float> alphas;
+public class AdditiveConvolution extends Convolution {
 
     public AdditiveConvolution(List<Float> alphas) {
-        float sum = alphas.stream().reduce(Float::sum).orElse(0f);
-        if (sum != 1) {
-            // TODO Сделать обработку исключения
-        }
-        this.alphas = alphas;
+        super(alphas);
     }
 
+    @Override
     public List<Double> doConvolution(DecisionTable decisionTable) {
         // нормализуем значения
         decisionTable.normalize();
