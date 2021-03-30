@@ -11,32 +11,32 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class AdditiveConvolutionTest {
+public class MultiplicativeConvolutionTest {
 
-    private DecisionTable decisionTable;
-    private AdditiveConvolution additiveConvolution;
+    DecisionTable decisionTable;
+    MultiplicativeConvolution multiplicativeConvolution;
 
     @Before
     public void setUp() throws Exception {
         decisionTable = DecisionTable.fromFile(new File("input.csv"));
-        additiveConvolution = new AdditiveConvolution(Arrays.asList(0.4f, 0.1f, 0.2f, 0.3f));
+        multiplicativeConvolution = new MultiplicativeConvolution(Arrays.asList(0.3f, 0.1f, 0.2f, 0.4f));
     }
 
     @Test
     public void testDoConvolution() {
-        List<Double> convolution = additiveConvolution.doConvolution(decisionTable);
+        List<Double> convolution = multiplicativeConvolution.doConvolution(decisionTable);
+        System.out.println(convolution);
+        System.out.println("Максимальный элемент -> " + multiplicativeConvolution.findMax(convolution));
         assertNotNull(convolution);
         assertEquals(8, convolution.size());
-        assertEquals(0.771d, additiveConvolution.findMax(convolution), 0.001);
-        System.out.println(convolution);
-        System.out.println("Максимальный элемент -> " + additiveConvolution.findMax(convolution));
+        assertEquals(0.720d, multiplicativeConvolution.findMax(convolution), 0.001);
     }
 
     @Test
     public void testFindAlt() {
         List<List<Double>> transposedMatrix = decisionTable.transposeToList();
-        List<Double> convolution = additiveConvolution.doConvolution(decisionTable);
-        List<Double> alt = additiveConvolution.findAlt(transposedMatrix, convolution);
+        List<Double> convolution = multiplicativeConvolution.doConvolution(decisionTable);
+        List<Double> alt = multiplicativeConvolution.findAlt(transposedMatrix, convolution);
         assertEquals(Arrays.asList(4.0, 8.0, 1.0, 6.0), alt);
 
         System.out.println("Матрица решений:");

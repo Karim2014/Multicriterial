@@ -65,6 +65,20 @@ public class DecisionTableTest {
     }
 
     @Test
+    public void testNormalizeZero() {
+        decisionTable.normalizeZero();
+        Criterion criterion = decisionTable.getCriterion()
+                .keySet()
+                .stream()
+                .filter(criterion1 -> criterion1.getName() == 3)
+                .findFirst()
+                .get();
+        assertEquals(Arrays.asList(0.125, 0.25, 1.0, 0.375, 0.625, 0.75, 0.875, 0.5),
+                decisionTable.getCriterion().get(criterion));
+        System.out.println(decisionTable.getCriterion());
+    }
+
+    @Test
     public void name() {
         List<Integer> a = Arrays.asList(1,2,3,4);
         a = a.stream().map(item -> item = item+1).collect(Collectors.toList());

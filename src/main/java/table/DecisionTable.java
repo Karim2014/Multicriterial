@@ -34,6 +34,25 @@ public class DecisionTable {
         });
     }
 
+    public void normalizeZero() {
+        criterion.forEach((criterion1, doubles) -> {
+            double min = doubles.stream().min(Double::compareTo).get();
+            List<Double> newDoubles = doubles;
+            if (min <= 0) {
+                newDoubles = doubles.stream()
+                        .map(aDouble -> aDouble + Math.abs(min) + 1)
+                        .collect(Collectors.toList());
+            }
+            double newMin = newDoubles.stream().min(Double::compareTo).get();
+            double max = newDoubles.stream().max(Double::compareTo).get();
+            newDoubles = newDoubles.stream()
+                    .map(aDouble -> criterion1.getAspiration().normalizeZero(aDouble, max, newMin))
+                    .collect(Collectors.toList());
+            doubles.clear();
+            doubles.addAll(newDoubles);
+        });
+    }
+
     public List<List<Double>> toList() {
         return new ArrayList<>(criterion.values());
     }

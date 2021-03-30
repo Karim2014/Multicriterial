@@ -8,15 +8,26 @@ public class Criterion implements Comparable<Criterion> {
             public double normalize(double X, double max, double min) {
                 return (X - min) / (max - min);
             }
+
+            @Override
+            public double normalizeZero(double X, double max, double min) {
+                return X / max;
+            }
         },
         MIN {
             @Override
             public double normalize(double X, double max, double min) {
                 return (max - X) / (max - min);
             }
+
+            @Override
+            public double normalizeZero(double X, double max, double min) {
+                return min / X;
+            }
         };
 
         public abstract double normalize(double X, double max, double min);
+        public abstract double normalizeZero(double X, double max, double min);
     }
 
     private int name;
