@@ -24,7 +24,7 @@ public class MultiplicativeConvolutionTest {
 
     @Test
     public void testDoConvolution() {
-        List<Double> convolution = multiplicativeConvolution.doConvolution(decisionTable);
+        List<Double> convolution = multiplicativeConvolution.solve(decisionTable);
         System.out.println(convolution);
         System.out.println("Максимальный элемент -> " + multiplicativeConvolution.findMax(convolution));
         assertNotNull(convolution);
@@ -35,7 +35,7 @@ public class MultiplicativeConvolutionTest {
     @Test
     public void testFindAlt() {
         List<List<Double>> transposedMatrix = decisionTable.transposeToList();
-        List<Double> convolution = multiplicativeConvolution.doConvolution(decisionTable);
+        List<Double> convolution = multiplicativeConvolution.solve(decisionTable);
         List<Double> alt = multiplicativeConvolution.findAlt(transposedMatrix, convolution);
         assertEquals(Arrays.asList(4.0, 8.0, 1.0, 6.0), alt);
 

@@ -12,7 +12,7 @@ public class MultiplicativeConvolution extends Convolution {
     }
 
     @Override
-    public List<Double> doConvolution(DecisionTable decisionTable) {
+    public List<Double> solve(DecisionTable decisionTable) {
         // нормализуем значения
         decisionTable.normalizeZero();
         // транспонируем матрицу решений и возвращааем в виде двумерных списков

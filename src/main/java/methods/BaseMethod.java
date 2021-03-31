@@ -1,8 +1,13 @@
 package methods;
 
+import table.DecisionTable;
+
 import java.util.List;
 
-public class BaseMethod {
+public abstract class BaseMethod {
+
+    public abstract List<Double> solve(DecisionTable decisionTable);
+
     public double findMax(List<Double> convolution) {
         return convolution.stream().max(Double::compareTo).get();
     }

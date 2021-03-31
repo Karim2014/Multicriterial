@@ -24,7 +24,7 @@ public class AdditiveConvolutionTest {
 
     @Test
     public void testDoConvolution() {
-        List<Double> convolution = additiveConvolution.doConvolution(decisionTable);
+        List<Double> convolution = additiveConvolution.solve(decisionTable);
         assertNotNull(convolution);
         assertEquals(8, convolution.size());
         assertEquals(0.771d, additiveConvolution.findMax(convolution), 0.001);
@@ -35,7 +35,7 @@ public class AdditiveConvolutionTest {
     @Test
     public void testFindAlt() {
         List<List<Double>> transposedMatrix = decisionTable.transposeToList();
-        List<Double> convolution = additiveConvolution.doConvolution(decisionTable);
+        List<Double> convolution = additiveConvolution.solve(decisionTable);
         List<Double> alt = additiveConvolution.findAlt(transposedMatrix, convolution);
         assertEquals(Arrays.asList(4.0, 8.0, 1.0, 6.0), alt);
 
