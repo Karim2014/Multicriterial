@@ -8,10 +8,6 @@ public abstract class BaseMethod {
 
     public abstract List<Double> solve(DecisionTable decisionTable);
 
-    public double findMax(List<Double> convolution) {
-        return convolution.stream().max(Double::compareTo).get();
-    }
-
     public List<Double> findAlt(List<List<Double>> transposedMatrix, List<Double> convolution) {
         int index = 0;
         double max = convolution.get(index);
@@ -22,5 +18,13 @@ public abstract class BaseMethod {
             }
         }
         return transposedMatrix.get(index);
+    }
+
+    public Double findMin(List<Double> list) {
+        return list.stream().min(Double::compareTo).get();
+    }
+
+    public double findMax(List<Double> convolution) {
+        return convolution.stream().max(Double::compareTo).get();
     }
 }
