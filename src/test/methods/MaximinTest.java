@@ -30,6 +30,10 @@ public class MaximinTest {
         assertNotNull(list);
         assertEquals(8, list.size());
         assertEquals(0.25d, maximin.findMax(list), 0.001);
+        List<Double> expectedList = Arrays.asList(0.125, 0.0667, 0.1429, 0.1667, 0.2, 0.25, 0.125, 0.25);
+        for (int i = 0; i < list.size(); i++) {
+            assertEquals(expectedList.get(i), list.get(i), 0.001d);
+        }
     }
 
     @Test
