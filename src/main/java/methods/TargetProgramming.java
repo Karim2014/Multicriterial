@@ -12,14 +12,14 @@ public class TargetProgramming extends BaseMethod {
 
     @Override
     public List<Double> solve(DecisionTable decisionTable) {
-        decisionTable.normalizeZero();
+        DecisionTable normalized = decisionTable.normalizeZero();
 
-        List<Double> maximumList = decisionTable.toList()
+        List<Double> maximumList = normalized.toList()
                 .stream()
                 .map(doubles -> doubles.stream().max(Double::compareTo).get())
                 .collect(Collectors.toList());
 
-        return decisionTable.transposeToList().stream()
+        return normalized.transposeToList().stream()
                 .map(doubles -> {
                     double z = 0;
                     for (int i = 0; i < doubles.size(); i++) {

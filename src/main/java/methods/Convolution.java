@@ -1,18 +1,19 @@
 package methods;
 
-import java.util.List;
-
 public abstract class Convolution extends BaseMethod {
 
-    protected List<Float> alphas;
+    protected float[] alphas;
 
     /**
      * Конструктор. Выполняет инициализацию коэффициентов важности
      * Сумма коэффициентов должна быть 1 (100%)
      * @param alphas
      */
-    public Convolution(List<Float> alphas) {
-        float sum = alphas.stream().reduce(Float::sum).orElse(0f);
+    public Convolution(float[] alphas) {
+        float sum = 0;
+        for (int i = 0; i < alphas.length; i++) {
+            sum += alphas[i];
+        }
         if (sum != 1) {
             // TODO Сделать обработку исключения
         }

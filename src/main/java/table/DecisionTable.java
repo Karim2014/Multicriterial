@@ -13,15 +13,21 @@ public class DecisionTable {
         criterion = new LinkedHashMap<>();
     }
 
+    public DecisionTable(Map<Criterion, List<Double>> criterion) {
+        this.criterion = criterion;
+    }
+
     public Map<Criterion, List<Double>> getCriterion() {
         return criterion;
     }
 
     /**
      * Выполняет нормализацию критериев
+     * @return
      */
-    public void normalize() {
+    public DecisionTable normalize() {
         // для каждой строки нетранспонированной матрицы
+        Map<Criterion, List<Double>> criterionListMap = new LinkedHashMap<>();
         criterion.forEach((criterion1, doubles) -> {
             // находим минимальный и максимальный элемент в векторе
             double min = doubles.stream().min(Double::compareTo).get();
@@ -33,16 +39,17 @@ public class DecisionTable {
                     .stream()
                     .map(aDouble -> criterion1.getAspiration().normalize(aDouble, max, min))
                     .collect(Collectors.toList());
-            // очищаем текущий вектор и записываем вновь полученный
-            doubles.clear();
-            doubles.addAll(newDoubleList);
+            criterionListMap.put(criterion1, newDoubleList);
         });
+        return new DecisionTable(criterionListMap);
     }
 
     /**
      * Выполняет нормализацию критериев с учетом отрицательных элементов в матрице
+     * @return
      */
-    public void normalizeZero() {
+    public DecisionTable normalizeZero() {
+        Map<Criterion, List<Double>> criterionListMap = new LinkedHashMap<>();
         // для каждой строки нетранспонированной матрицы
         criterion.forEach((criterion1, doubles) -> {
             // находим минимальный элемент
@@ -61,9 +68,9 @@ public class DecisionTable {
             newDoubles = newDoubles.stream()
                     .map(aDouble -> criterion1.getAspiration().normalizeZero(aDouble, max, newMin))
                     .collect(Collectors.toList());
-            doubles.clear();
-            doubles.addAll(newDoubles);
+            criterionListMap.put(criterion1, newDoubles);
         });
+        return new DecisionTable(criterionListMap);
     }
 
     public List<List<Double>> toList() {

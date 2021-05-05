@@ -7,23 +7,24 @@ import java.util.stream.Collectors;
 
 public class AdditiveConvolution extends Convolution {
 
-    public AdditiveConvolution(List<Float> alphas) {
+    public AdditiveConvolution(float[] alphas) {
         super(alphas);
     }
 
     @Override
     public List<Double> solve(DecisionTable decisionTable) {
         // нормализуем значения
-        decisionTable.normalize();
         // транспонируем матрицу решений и возвращааем в виде двумерных списков
-        List<List<Double>> transposedMatrix = decisionTable.transposeToList();
+        List<List<Double>> transposedMatrix = decisionTable
+                .normalize()
+                .transposeToList();
         // суммируем элементы и возвращае
         return transposedMatrix
                 .stream()
                 .map(doubles -> {
                     double sum = 0;
                     for (int i = 0; i < doubles.size(); i++) {
-                        sum += alphas.get(i) * doubles.get(i);
+                        sum += alphas[i] * doubles.get(i);
                     }
                     return sum;
                 })

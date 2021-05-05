@@ -19,7 +19,7 @@ public class AdditiveConvolutionTest {
     @Before
     public void setUp() throws Exception {
         decisionTable = DecisionTable.fromFile(new File("input.csv"));
-        additiveConvolution = new AdditiveConvolution(Arrays.asList(0.4f, 0.1f, 0.2f, 0.3f));
+        additiveConvolution = new AdditiveConvolution(new float[] {0.4f, 0.1f, 0.2f, 0.3f});
     }
 
     @Test

@@ -19,7 +19,7 @@ public class MultiplicativeConvolutionTest {
     @Before
     public void setUp() throws Exception {
         decisionTable = DecisionTable.fromFile(new File("input.csv"));
-        multiplicativeConvolution = new MultiplicativeConvolution(Arrays.asList(0.3f, 0.1f, 0.2f, 0.4f));
+        multiplicativeConvolution = new MultiplicativeConvolution(new float[] {0.3f, 0.1f, 0.2f, 0.4f});
     }
 
     @Test
