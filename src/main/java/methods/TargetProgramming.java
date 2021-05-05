@@ -29,4 +29,17 @@ public class TargetProgramming extends BaseMethod {
                 })
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Double> findAlt(List<List<Double>> transposedMatrix, List<Double> convolution) {
+        int index = 0;
+        double min = convolution.get(index);
+        for (int i = 0; i < convolution.size(); i++) {
+            if (convolution.get(i) < min) {
+                min = convolution.get(i);
+                index = i;
+            }
+        }
+        return transposedMatrix.get(index);
+    }
 }

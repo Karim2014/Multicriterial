@@ -25,7 +25,7 @@ public class TargetProgrammingTest {
     @Test
     public void testSolve() {
         List<Double> list = targetProgramming.solve(decisionTable);
-        System.out.println(list);
+        list.forEach(System.out::println);
         System.out.println("Минимальный элемент -> " + targetProgramming.findMin(list));
 
         assertNotNull(list);
@@ -35,5 +35,18 @@ public class TargetProgrammingTest {
         for (int i = 0; i < list.size(); i++) {
             assertEquals(expectedList.get(i), list.get(i), 0.001d);
         }
+    }
+
+    @Test
+    public void testFindAlt() {
+        List<List<Double>> transposedMatrix = decisionTable.transposeToList();
+        List<Double> convolution = targetProgramming.solve(decisionTable);
+        List<Double> alt = targetProgramming.findAlt(transposedMatrix, convolution);
+        assertEquals(Arrays.asList(4.0, 8.0, 1.0, 6.0), alt);
+
+        System.out.println("Матрица решений:");
+        transposedMatrix.forEach(System.out::println);
+        System.out.println("Оптимальная альтернатива:");
+        System.out.println(alt);
     }
 }

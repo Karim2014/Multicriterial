@@ -40,7 +40,7 @@ public class MultiplicativeConvolutionTest {
         assertEquals(Arrays.asList(4.0, 8.0, 1.0, 6.0), alt);
 
         System.out.println("Матрица решений:");
-        System.out.println(transposedMatrix);
+        transposedMatrix.forEach(System.out::println);
         System.out.println("Оптимальная альтернатива:");
         System.out.println(alt);
     }

@@ -10,7 +10,7 @@ public class Maximin extends BaseMethod {
     @Override
     public List<Double> solve(DecisionTable decisionTable) {
         decisionTable.normalizeZero();
-
+        // возвращаем минимальные элементы в строках таблицы
         return decisionTable.transposeToList()
                 .stream()
                 .map(doubles -> doubles.stream().min(Double::compareTo).get())
