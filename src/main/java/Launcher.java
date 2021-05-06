@@ -17,8 +17,8 @@ public class Launcher {
         }
     }
 
-    DecisionTable decisionTable;
-    Scanner sc;
+    private DecisionTable decisionTable;
+    private Scanner sc;
 
     private void start() throws Exception {
         sc = new Scanner(System.in);
@@ -48,12 +48,12 @@ public class Launcher {
             solveConvolution(MultiplicativeConvolution.class);
             System.out.println("\n======================= 3 =======================");
             System.out.println("Решение максиминным методом");
-            solveMaximin();
+            solve(Maximin.class, BaseMethod::findMax, "Максимальный");
 
 
             System.out.println("\n======================= 6 =======================");
             System.out.println("Решение методом целевого программирования");
-            solveTarget();
+            solve(TargetProgramming.class, BaseMethod::findMin, "Минимальный");
         }
     }
 
@@ -72,33 +72,22 @@ public class Launcher {
        // } while (IntStream.of(alphas).sum() != 1);*/
         float[] alphas = new float[] { 0.3f, 0.1f, 0.2f, 0.4f };
         //Convolution additiveConvolution;//new MultiplicativeConvolution(alphas);
-        Convolution additiveConvolution     = (Convolution) aClass.getDeclaredConstructors()[0].newInstance(alphas);
-        List<Double> convolution            = additiveConvolution.solve(decisionTable);
-        List<Double> alt                    = additiveConvolution.findAlt(transposedMatrix, convolution);
+        Convolution convolution = (Convolution) aClass.getDeclaredConstructors()[0].newInstance(alphas);
+        List<Double> decision   = convolution.solve(decisionTable);
+        List<Double> alt        = convolution.findAlt(transposedMatrix, decision);
 
-        footer(additiveConvolution::findMax, convolution, alt, "Максимальный");
+        footer(BaseMethod::findMax, decision, alt, "Максимальный");
     }
 
-    private void solveMaximin() {
+    private void solve(Class<? extends BaseMethod> aClass, Function<List<Double>, Double> opt, String which) throws IllegalAccessException, InvocationTargetException, InstantiationException {
         System.out.println("Загруженная матрица:");
         List<List<Double>> transposedMatrix = decisionTable.transposeToList();
         printMatrix(transposedMatrix);
-        Maximin maximin         = new Maximin();
-        List<Double> decision   = maximin.solve(decisionTable);
-        List<Double> alt        = maximin.findAlt(transposedMatrix, decision);
+        BaseMethod method       = (BaseMethod) aClass.getDeclaredConstructors()[0].newInstance();
+        List<Double> decision   = method.solve(decisionTable);
+        List<Double> alt        = method.findAlt(transposedMatrix, decision);
 
-        footer(maximin::findMax, decision, alt, "Максимальный");
-    }
-
-    private void solveTarget() {
-        System.out.println("Загруженная матрица:");
-        List<List<Double>> transposedMatrix = decisionTable.transposeToList();
-        printMatrix(transposedMatrix);
-        TargetProgramming targetProgramming = new TargetProgramming();
-        List<Double> decision               = targetProgramming.solve(decisionTable);
-        List<Double> alt                    = targetProgramming.findAlt(transposedMatrix, decision);
-
-        footer(targetProgramming::findMin, decision, alt, "Минимальный");
+        footer(opt, decision, alt, which);
     }
 
     private void footer(Function<List<Double>, Double> opt, List<Double> decision, List<Double> alt, String which) {

@@ -27,11 +27,11 @@ public abstract class BaseMethod {
         return transposedMatrix.get(index);
     }
 
-    public Double findMin(List<Double> list) {
+    public static Double findMin(List<Double> list) {
         return list.stream().min(Double::compareTo).get();
     }
 
-    public double findMax(List<Double> convolution) {
+    public static Double findMax(List<Double> convolution) {
         return convolution.stream().max(Double::compareTo).get();
     }
 }
