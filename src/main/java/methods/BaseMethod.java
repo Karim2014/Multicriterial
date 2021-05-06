@@ -6,7 +6,13 @@ import java.util.List;
 
 public abstract class BaseMethod {
 
-    public abstract List<Double> solve(DecisionTable decisionTable);
+    protected DecisionTable decisionTable;
+
+    public abstract List<Double> solve();
+
+    public BaseMethod(DecisionTable decisionTable) {
+        this.decisionTable = decisionTable;
+    }
 
     /**
      * Выполняет поиск альтернативы, которая является оптимальной, исходя из решения задачи

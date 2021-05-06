@@ -7,8 +7,12 @@ import java.util.stream.Collectors;
 
 public class Maximin extends BaseMethod {
 
+    public Maximin(DecisionTable decisionTable) {
+        super(decisionTable);
+    }
+
     @Override
-    public List<Double> solve(DecisionTable decisionTable) {
+    public List<Double> solve() {
         // возвращаем минимальные элементы в строках таблицы
         return decisionTable.normalizeZero().transposeToList()
                 .stream()

@@ -10,8 +10,12 @@ public class TargetProgramming extends BaseMethod {
     private final int p = 2;
     private final int w = 1;
 
+    public TargetProgramming(DecisionTable decisionTable) {
+        super(decisionTable);
+    }
+
     @Override
-    public List<Double> solve(DecisionTable decisionTable) {
+    public List<Double> solve() {
         DecisionTable normalized = decisionTable.normalizeZero();
 
         List<Double> maximumList = normalized.toList()
@@ -29,6 +33,8 @@ public class TargetProgramming extends BaseMethod {
                 })
                 .collect(Collectors.toList());
     }
+
+
 
     @Override
     public List<Double> findAlt(List<List<Double>> transposedMatrix, List<Double> convolution) {

@@ -13,24 +13,24 @@ import static org.junit.Assert.assertNotNull;
 
 public class TargetProgrammingTest {
 
-    DecisionTable decisionTable;
-    TargetProgramming targetProgramming;
+    private DecisionTable decisionTable;
+    private TargetProgramming targetProgramming;
 
     @Before
     public void setUp() throws Exception {
         decisionTable = DecisionTable.fromFile(new File("input.csv"));
-        targetProgramming = new TargetProgramming();
+        targetProgramming = new TargetProgramming(decisionTable);
     }
 
     @Test
     public void testSolve() {
-        List<Double> list = targetProgramming.solve(decisionTable);
+        List<Double> list = targetProgramming.solve();
         list.forEach(System.out::println);
-        System.out.println("Минимальный элемент -> " + targetProgramming.findMin(list));
+        System.out.println("Минимальный элемент -> " + BaseMethod.findMin(list));
 
         assertNotNull(list);
         assertEquals(8, list.size());
-        assertEquals(0.906, targetProgramming.findMin(list), 0.001d);
+        assertEquals(0.906, BaseMethod.findMin(list), 0.001d);
         List<Double> expectedList = Arrays.asList(1.258, 1.298, 1.261, 1.313, 1.156, 1.149, 0.906, 1.123);
         for (int i = 0; i < list.size(); i++) {
             assertEquals(expectedList.get(i), list.get(i), 0.001d);
@@ -40,7 +40,7 @@ public class TargetProgrammingTest {
     @Test
     public void testFindAlt() {
         List<List<Double>> transposedMatrix = decisionTable.transposeToList();
-        List<Double> convolution = targetProgramming.solve(decisionTable);
+        List<Double> convolution = targetProgramming.solve();
         List<Double> alt = targetProgramming.findAlt(transposedMatrix, convolution);
         assertEquals(Arrays.asList(4.0, 8.0, 1.0, 6.0), alt);
 

@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 
 public class MultiplicativeConvolution extends Convolution {
 
-    public MultiplicativeConvolution(float[] alphas) {
-        super(alphas);
+    public MultiplicativeConvolution(DecisionTable table, float[] alphas) {
+        super(table, alphas);
     }
 
     @Override
-    public List<Double> solve(DecisionTable decisionTable) {
+    public List<Double> solve() {
         // нормализуем значения
         // транспонируем матрицу решений и возвращааем в виде двумерных списков
         List<List<Double>> transposedMatrix = decisionTable.normalizeZero().transposeToList();

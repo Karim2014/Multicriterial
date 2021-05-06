@@ -13,23 +13,23 @@ import static org.junit.Assert.assertNotNull;
 
 public class MaximinTest {
 
-    DecisionTable decisionTable;
-    Maximin maximin;
+    private DecisionTable decisionTable;
+    private Maximin maximin;
 
     @Before
     public void setUp() throws Exception {
         decisionTable = DecisionTable.fromFile(new File("input.csv"));
-        maximin = new Maximin();
+        maximin = new Maximin(decisionTable);
     }
 
     @Test
     public void testSolve() {
-        List<Double> list = maximin.solve(decisionTable);
+        List<Double> list = maximin.solve();
         System.out.println(list);
-        System.out.println("Максимальный элемент -> " + maximin.findMax(list));
+        System.out.println("Максимальный элемент -> " + BaseMethod.findMax(list));
         assertNotNull(list);
         assertEquals(8, list.size());
-        assertEquals(0.25d, maximin.findMax(list), 0.001);
+        assertEquals(0.25d, BaseMethod.findMax(list), 0.001);
         List<Double> expectedList = Arrays.asList(0.125, 0.0667, 0.1429, 0.1667, 0.2, 0.25, 0.125, 0.25);
         for (int i = 0; i < list.size(); i++) {
             assertEquals(expectedList.get(i), list.get(i), 0.001d);
@@ -39,7 +39,7 @@ public class MaximinTest {
     @Test
     public void testFindAlt() {
         List<List<Double>> transposedMatrix = decisionTable.transposeToList();
-        List<Double> convolution = maximin.solve(decisionTable);
+        List<Double> convolution = maximin.solve();
         List<Double> alt = maximin.findAlt(transposedMatrix, convolution);
         System.out.println("Матрица решений:");
         transposedMatrix.forEach(System.out::println);

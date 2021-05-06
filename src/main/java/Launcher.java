@@ -12,7 +12,7 @@ public class Launcher {
         try {
             new Launcher().start();
         } catch (Exception e) {
-            System.err.println("Произошла ошибка");
+            System.err.println("Произошла ошибка " + e.getLocalizedMessage());
             //e.printStackTrace();
         }
     }
@@ -72,8 +72,8 @@ public class Launcher {
        // } while (IntStream.of(alphas).sum() != 1);*/
         float[] alphas = new float[] { 0.3f, 0.1f, 0.2f, 0.4f };
         //Convolution additiveConvolution;//new MultiplicativeConvolution(alphas);
-        Convolution convolution = (Convolution) aClass.getDeclaredConstructors()[0].newInstance(alphas);
-        List<Double> decision   = convolution.solve(decisionTable);
+        Convolution convolution = (Convolution) aClass.getDeclaredConstructors()[0].newInstance(decisionTable, alphas);
+        List<Double> decision   = convolution.solve();
         List<Double> alt        = convolution.findAlt(transposedMatrix, decision);
 
         footer(BaseMethod::findMax, decision, alt, "Максимальный");
@@ -83,8 +83,8 @@ public class Launcher {
         System.out.println("Загруженная матрица:");
         List<List<Double>> transposedMatrix = decisionTable.transposeToList();
         printMatrix(transposedMatrix);
-        BaseMethod method       = (BaseMethod) aClass.getDeclaredConstructors()[0].newInstance();
-        List<Double> decision   = method.solve(decisionTable);
+        BaseMethod method       = (BaseMethod) aClass.getDeclaredConstructors()[0].newInstance(decisionTable);
+        List<Double> decision   = method.solve();
         List<Double> alt        = method.findAlt(transposedMatrix, decision);
 
         footer(opt, decision, alt, which);
