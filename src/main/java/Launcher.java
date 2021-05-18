@@ -1,3 +1,4 @@
+import ahp.AnalyticHierarchyProcess;
 import methods.*;
 import table.DecisionTable;
 
@@ -27,7 +28,7 @@ public class Launcher {
         System.out.print("Выберите номер задачи:\n 1: Решение многокритериальных задач различными методами;" +
                 "\n 2: Решение многокритериальной задачи интерактивным методом\n" +
                 " -> ");
-        byte task = 1;//sc.nextByte();
+        byte task = sc.nextByte();
         while(task != 1 && task  != 2) {
             System.out.println("Повторите ввод");
             task = sc.nextByte();
@@ -56,6 +57,10 @@ public class Launcher {
             System.out.println("\n======================= 6 =======================");
             System.out.println("Решение методом целевого программирования");
             solve(TargetProgramming.class, BaseMethod::findMin, "Минимальный");
+        } else {
+            System.out.println("Выбрано задание \"Решение многокритериальной задачи интерактивным методом\"");
+            System.out.println("Метод анализа иерархий");
+            new AnalyticHierarchyProcess().start(sc);
         }
     }
 
