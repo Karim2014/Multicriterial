@@ -49,7 +49,9 @@ public class Launcher {
             System.out.println("\n======================= 3 =======================");
             System.out.println("Решение максиминным методом");
             solve(Maximin.class, BaseMethod::findMax, "Максимальный");
-
+            System.out.println("\n======================= 4 =======================");
+            System.out.println("Решение максиминным методом");
+            solveMainCriterion();
 
             System.out.println("\n======================= 6 =======================");
             System.out.println("Решение методом целевого программирования");
@@ -88,6 +90,35 @@ public class Launcher {
         List<Double> alt        = method.findAlt(transposedMatrix, decision);
 
         footer(opt, decision, alt, which);
+    }
+
+    private void solveMainCriterion() {
+        System.out.println("Загруженная матрица:");
+        List<List<Double>> transposedMatrix = decisionTable.transposeToList();
+        printMatrix(transposedMatrix);
+
+        System.out.println("Введите номер главного критерия\n -> ");
+        int mainCriterionIndex = sc.nextByte();
+        MainCriterion method = new MainCriterion(decisionTable, mainCriterionIndex);
+
+        List<Double> opt = method.findOpt();
+        System.out.println("Оптимальные значения");
+        opt.forEach(aDouble -> System.out.print(aDouble + " \t"));
+        System.out.println("\nЗадайте ограничения для каждого критерия:");
+        double[] limits = new double[opt.size()];
+        for (int i = 0; i < limits.length; i++) {
+            if (i != mainCriterionIndex) {
+                System.out.printf("C%d: ", i);
+                limits[i] = sc.nextByte();
+            } else {
+                limits[i] = 0;
+            }
+        }
+        method.setLimits(limits);
+        //method.setLimits(new double[] { 0d, 8d, 3d, 0d });
+        List<Double> alt = method.solve();
+        System.out.println("Оптимальная альтернатива: ");
+        System.out.println(alt);
     }
 
     private void footer(Function<List<Double>, Double> opt, List<Double> decision, List<Double> alt, String which) {

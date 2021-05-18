@@ -13,6 +13,11 @@ public class Criterion implements Comparable<Criterion> {
             public double normalizeZero(double X, double max, double min) {
                 return X / max;
             }
+
+            @Override
+            public boolean compare(double aDouble, double limit) {
+                return aDouble >= limit;
+            }
         },
         MIN {
             @Override
@@ -24,10 +29,16 @@ public class Criterion implements Comparable<Criterion> {
             public double normalizeZero(double X, double max, double min) {
                 return min / X;
             }
+
+            @Override
+            public boolean compare(double aDouble, double limit) {
+                return aDouble <= limit;
+            }
         };
 
         public abstract double normalize(double X, double max, double min);
         public abstract double normalizeZero(double X, double max, double min);
+        public abstract boolean compare(double aDouble, double limit);
     }
 
     private int name;
