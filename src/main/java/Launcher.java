@@ -9,12 +9,15 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 public class Launcher {
+
+    private static final boolean DEBUG = true;
+
     public static void main(String[] args) {
         try {
             new Launcher().start();
         } catch (Exception e) {
             System.err.println("Произошла ошибка " + e.getLocalizedMessage());
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -37,8 +40,8 @@ public class Launcher {
         if (task == 1) {
             System.out.println("Выбрано задание \"Решение многокритериальных задач различными методами\"");
             System.out.print("Введите имя файла с таблицей: ");
-            //sc.nextLine();
-            String fileName = "input.csv";//sc.nextLine();
+            String fileName = DEBUG ? "input.csv" : sc.nextLine();
+
             decisionTable = DecisionTable.fromFile(new File(fileName));
             System.out.println(fileName);
             System.out.println("\n======================= 1 =======================");
@@ -51,7 +54,7 @@ public class Launcher {
             System.out.println("Решение максиминным методом");
             solve(Maximin.class, BaseMethod::findMax, "Максимальный");
             System.out.println("\n======================= 4 =======================");
-            System.out.println("Решение максиминным методом");
+            System.out.println("Решение задачи методом главного критерия");
             solveMainCriterion();
 
             System.out.println("\n======================= 6 =======================");
@@ -68,17 +71,19 @@ public class Launcher {
         System.out.println("Загруженная матрица:");
         List<List<Double>> transposedMatrix = decisionTable.transposeToList();
         printMatrix(transposedMatrix);
-        System.out.println("Необходимо ввести " + transposedMatrix.get(0).size() + " коэффициента важности критериев (Сумма = 1): ");
-        /*float[] alphas = new float[transposedMatrix.get(0).size()];
+        System.out.println("Необходимо ввести " + transposedMatrix.get(0).size() + " коэффициента важности критериев в процентах (Сумма = 100%): ");
+        float[] alphas = new float[transposedMatrix.get(0).size()];
         //TODO: Организовать проверку SUM(alphas) = 100
         //do {
+        if (!DEBUG) {
             for (int i = 0; i < alphas.length; i++) {
                 System.out.print((i + 1) + ": ");
-                alphas[i] = sc.nextByte();
+                alphas[i] = (float) sc.nextInt() / 100;
             }
-       // } while (IntStream.of(alphas).sum() != 1);*/
-        float[] alphas = new float[] { 0.3f, 0.1f, 0.2f, 0.4f };
-        //Convolution additiveConvolution;//new MultiplicativeConvolution(alphas);
+        } else {
+            alphas = new float[] { 0.3f, 0.1f, 0.2f, 0.4f };
+        }
+        //} while (Stream.of(alphas).mapToInt);
         Convolution convolution = (Convolution) aClass.getDeclaredConstructors()[0].newInstance(decisionTable, alphas);
         List<Double> decision   = convolution.solve();
         List<Double> alt        = convolution.findAlt(transposedMatrix, decision);
@@ -103,24 +108,27 @@ public class Launcher {
         printMatrix(transposedMatrix);
 
         System.out.println("Введите номер главного критерия\n -> ");
-        int mainCriterionIndex = sc.nextByte();
+        int mainCriterionIndex = DEBUG ? 3 : sc.nextByte();
         MainCriterion method = new MainCriterion(decisionTable, mainCriterionIndex);
 
         List<Double> opt = method.findOpt();
         System.out.println("Оптимальные значения");
         opt.forEach(aDouble -> System.out.print(aDouble + " \t"));
         System.out.println("\nЗадайте ограничения для каждого критерия:");
-        double[] limits = new double[opt.size()];
-        for (int i = 0; i < limits.length; i++) {
-            if (i != mainCriterionIndex) {
-                System.out.printf("C%d: ", i);
-                limits[i] = sc.nextByte();
-            } else {
-                limits[i] = 0;
+        if (!DEBUG) {
+            double[] limits = new double[opt.size()];
+            for (int i = 0; i < limits.length; i++) {
+                if (i != mainCriterionIndex) {
+                    System.out.printf("C%d: ", i);
+                    limits[i] = sc.nextByte();
+                } else {
+                    limits[i] = 0;
+                }
             }
+            method.setLimits(limits);
+        } else {
+            method.setLimits(new double[] { 0d, 8d, 3d, 0d });
         }
-        method.setLimits(limits);
-        //method.setLimits(new double[] { 0d, 8d, 3d, 0d });
         List<Double> alt = method.solve();
         System.out.println("Оптимальная альтернатива: ");
         System.out.println(alt);
