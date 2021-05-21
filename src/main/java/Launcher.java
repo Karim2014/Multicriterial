@@ -10,7 +10,7 @@ import java.util.function.Function;
 
 public class Launcher {
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     public static void main(String[] args) {
         try {
@@ -40,10 +40,10 @@ public class Launcher {
         if (task == 1) {
             System.out.println("Выбрано задание \"Решение многокритериальных задач различными методами\"");
             System.out.print("Введите имя файла с таблицей: ");
+            sc.nextLine();
             String fileName = DEBUG ? "input.csv" : sc.nextLine();
-
             decisionTable = DecisionTable.fromFile(new File(fileName));
-            System.out.println(fileName);
+            //System.out.println(fileName);
             System.out.println("\n======================= 1 =======================");
             System.out.println("Решение методом аддитивной свертки критериев");
             solveConvolution(AdditiveConvolution.class);
